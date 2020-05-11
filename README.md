@@ -21,7 +21,11 @@ To deploy the Azure resources required for this example, you will need:
 
 **Note** that you will be deploying a number of Azure resources into your Azure Subscription when either clicking on the `Deploy to Azure` button below, or by alternatively deploying by using an ARM template and parameters file via the Azure CLI.
 
-## Deploy Bike Buyer Template to Azure
+## Choices for Provisioning
+
+You can provision using the Deploy to Azure button below or by using the Azure CLI.
+
+### Provisioning using the Azure Portal
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FDataSnowman%2FEd-Fi-Azure%2Fmaster%2Fsetup%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
@@ -29,22 +33,6 @@ To deploy the Azure resources required for this example, you will need:
 <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FDataSnowman%2FEd-Fi-Azure%2Fmaster%2Fsetup%2Fazuredeploy.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
-
-Note: If you encounter issues with resources please check by running the following commands in the Azure CLI (Note more information on using the CLI is found in the `Provisioning using the Azure CLI` section below):
-  
-  `az login`
-
-  `az account show`
-
-  `az account list-locations`
-  
-  `az provider show --namespace Microsoft.Databricks --query "resourceTypes[?resourceType=='workspaces'].locations | [0]" --out table`
-
-## Choices for Provisioning
-
-You can provision using the Deploy to Azure button above or by using the Azure CLI.
-
-### Provisioning using the Azure Portal
 
 Choose your Subscription, and enter a Resource group, Location (Southeast Asia for the DevDays in Taipei) Resource Prefix (Short Prefix of 10 characters or less for all resources created by this template so they are unique), SQL Server Username, SQL Server Password, and agree to the Terms and Conditions. Then click the `Purchase` button.
 
@@ -60,22 +48,52 @@ After you open the resource group in the Azure portal you should see these deplo
 
 ### Provisioning using the Azure CLI
 
-1. Download and install the [Azure CLI Installer (MSI) for Windows](https://aka.ms/InstallAzureCliWindows) or [Mac or Linux](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) . Once the installation is complete open the command prompt and run `az login`, then copy the access code returned. In a browser, open a **private tab** and enter the URL `aka.ms/devicelogin`. When prompted, paste in the access code from above. You will be prompted to authenticate using our Azure account.  Go through the appropriate multifaction authenication.
+1. Download and install the [Azure CLI Installer (MSI) for Windows](https://aka.ms/InstallAzureCliWindows) or Azure CLI for [Mac or Linux](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) . Once the installation is complete open the command prompt and run `az login`, then copy the access code returned. In a browser, open a **private tab** and enter the URL `aka.ms/devicelogin`. When prompted, paste in the access code from above. You will be prompted to authenticate using our Azure account.  Go through the appropriate multifaction authenication.
 
-2. Navigate to the folder `MLonBigData\setup` If using **Windows Explorer** you can launch the command prompt by going to the address bar and typing `cmd` (for the Windows command prompt) or `bash` (for the Linux command prompt assuming it is installed already) and type `az --version` to check the installation.  Look for the `parameters-edfiazure.json` file you cloned during the Prerequisites above.  
+2. Navigate to the folder `Ed-Fi-Azure\setup` If using **Windows Explorer** you can launch the command prompt by going to the address bar and typing `cmd` (for the Windows command prompt) or `bash` (for the Linux command prompt assuming it is installed already) and type `az --version` to check the installation.  Look for the `parameters-edfiazure.json` file you cloned during the Prerequisites above.  It will look like this.  Make changes to the resourcePrefix (max of 9 characters - used to make services like storage accounts globally unique so if you want multiple versions of this deployed assign different resourcePrefixs), sqlServerUsername, and sqlServerPassword and save prior to running the ARM Template via the CLI
 
-3. When you logged in to the CLI in step 1 above you will see a json list of all the Azure account you have access to. Run `az account show` to see you current active account.  Run `az account list -o table` if you want to see all of you Azure account in a table. If you would like to switch to another Azure account run `az account set --subscription <your SubscriptionId>` to set the active subcription.  Run `az group create -n edfiazure -l southeastasia` to create a resource group called `edfiazure`.
+```
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+     "resourcePrefix": {"value" : "edfi"},
+     "sqlServerUsername": { "value" : "dbuser" },
+     "sqlServerPassword": { "value" : "EdFiAzure2020!" }
+  }
+}
+```
+
+3. When you logged in to the CLI in step 1 above you will see a json list of all the Azure account you have access to. 
+* Run `az account show` to see you current active account.
+* Run `az account list -o table` if you want to see all of you Azure account in a table. 
+* If you would like to switch to another Azure account run `az account set --subscription <your SubscriptionId>` to set the active subcription.
+* Run `az group create -n edfiazure -l westus` to create a resource group called `edfiazure`.
 
 4. Next run the following command to provision the Azure resources:
 ```
-az group deployment create -g edfiazure --template-file azureclideploy.json --parameters @parameters-edfiazure.json
+az deployment group create --resource-group edfiazure --template-file azureclideploy.json --parameters @parameters-edfiazure.json
 ```
+
 Once the provisioning is finished, we can run `az resource list -g edfiazure -o table` to check what resources were launched. Our listed resources includes: 
-    * 1 Storage account
-    * 1 Data Factory
-    * 1 SQL Server
-    * 1 SQL database
-    * 1 Databricks workspace
+
+* Data Factory
+* SQL database
+* SQL Server
+* Databricks workspace
+* ADLS Storage account
+
+## Issues deploying ARM Template on Azure
+
+Note: If you encounter issues with resources please check by running the following commands in the Azure CLI (Note more information on using the CLI is found in the `Provisioning using the Azure CLI` section below):
+  
+  `az login`
+
+  `az account show`
+
+  `az account list-locations`
+  
+  `az provider show --namespace Microsoft.Databricks --query "resourceTypes[?resourceType=='workspaces'].locations | [0]" --out table`
 
 ## Copy the TeacherCandidate csv file to Storage
 

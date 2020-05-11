@@ -25,6 +25,7 @@
     "variables": {
             "namePrefix": "[resourceGroup().name]",
             "uniqueNamePrefix": "[toLower(concat(resourceGroup().name, uniqueString(subscription().subscriptionId)))]",
+            "location": "[resourceGroup().location]",
             "sqlVersion": "2014-04-01",
             "sqlServerName": "[concat(parameters('resourcePrefix'),variables('uniqueNamePrefix'),'srv')]",
             "sqlDatabaseName": "[concat(parameters('resourcePrefix'),variables('uniqueNamePrefix'),'db')]",
@@ -56,7 +57,7 @@
                 "type": "Microsoft.Storage/storageAccounts",
                 "apiVersion": "[variables('stgVersion')]",
                 "name": "[variables('storageAccountName')]",
-                "location": "[parameters('location')]",
+                "location": "[variables('location')]",
                 "dependsOn": [],
                 "tags": {
                     "ADLS Storage": "DataIngest"
