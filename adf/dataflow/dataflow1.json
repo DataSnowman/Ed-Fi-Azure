@@ -1,0 +1,39 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Descriptor",
+						"type": "DatasetReference"
+					},
+					"name": "Desc"
+				},
+				{
+					"dataset": {
+						"referenceName": "SexDescriptor",
+						"type": "DatasetReference"
+					},
+					"name": "Sex"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "JoinTable",
+						"type": "DatasetReference"
+					},
+					"name": "edfidb"
+				}
+			],
+			"transformations": [
+				{
+					"name": "joindesc"
+				}
+			],
+			"script": "source(output(\n\t\tDescriptorId as integer,\n\t\tNamespace as string,\n\t\tCodeValue as string,\n\t\tShortDescription as string,\n\t\tDescription as string,\n\t\tPriorDescriptorId as integer,\n\t\tEffectiveBeginDate as date,\n\t\tEffectiveEndDate as date,\n\t\tCreateDate as timestamp,\n\t\tLastModifiedDate as timestamp,\n\t\tId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Desc\nsource(output(\n\t\tSexDescriptorId as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Sex\nDesc, Sex join(DescriptorId == SexDescriptorId,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> joindesc\njoindesc sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> edfidb"
+		}
+	}
+}
