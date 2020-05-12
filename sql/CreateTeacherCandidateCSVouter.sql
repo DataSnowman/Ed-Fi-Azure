@@ -3,12 +3,24 @@ SELECT
        [PersonalTitlePrefix]
       ,[FirstName]
       ,[LastSurname]
-	  ,S.[CodeValue] AS Gender
+	  ,Gender =  
+      CASE S.[CodeValue]
+         WHEN 'Female' THEN 'F'
+         WHEN 'Male' THEN 'M'
+         WHEN 'Not Selected' THEN 'U'  
+         ELSE 'U'  
+      END  
       ,[BirthDate]
       ,[BirthCity]
 	  ,BST.[CodeValue] as BirthState
 	  ,BC.[Description] as BirthCountry
-	  ,BS.[CodeValue] as BirthGender
+	  ,BirthGender =
+	  CASE BS.[CodeValue]
+         WHEN 'Female' THEN 'F'
+         WHEN 'Male' THEN 'M'
+         WHEN 'Not Selected' THEN 'U'  
+         ELSE 'U'  
+      END  
       ,[HispanicLatinoEthnicity]
 	  ,O.[Description] as OldEthnicity
       ,[EconomicDisadvantaged]
@@ -16,8 +28,18 @@ SELECT
       ,[LoginId]
       ,[TuitionCost]
 	  ,PC.[Description] as Career
-      ,[ProgramComplete]
-      ,[FirstGenerationStudent]
+      ,ProgramComplete =
+	  CASE [ProgramComplete]
+         WHEN 1 THEN 'Y'
+         WHEN 0 THEN 'N'  
+         ELSE NULL  
+      END  
+      ,FirstGenerationStudent =
+	  CASE [FirstGenerationStudent]
+         WHEN 1 THEN 'Y'
+         WHEN 0 THEN 'N'  
+         ELSE NULL  
+      END 
       ,[StudentUSI]
       ,TC.[Id]
   FROM	[EdFi_Ods_TPDM_2017_306].[tpdm].[TeacherCandidate] TC
