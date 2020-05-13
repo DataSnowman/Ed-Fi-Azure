@@ -42,7 +42,7 @@ SELECT
       END 
       ,[StudentUSI]
       ,TC.[Id]
-  FROM	[EdFi_Ods_TPDM_2017_306].[tpdm].[TeacherCandidate] TC
+  FROM	[EdFiDb].[tpdm].[TeacherCandidate] TC
 		LEFT OUTER JOIN [EdFi_Ods_TPDM_2017_306].[edfi].[Descriptor] S ON S.[DescriptorId] = TC.[SexDescriptorId]
 		LEFT OUTER JOIN [EdFi_Ods_TPDM_2017_306].[edfi].[Descriptor] BST ON BST.[DescriptorId] = TC.[BirthStateAbbreviationDescriptorId]
 		LEFT OUTER JOIN [EdFi_Ods_TPDM_2017_306].[edfi].[Descriptor] BC ON BC.[DescriptorId] = TC.[BirthCountryDescriptorId]

@@ -34,17 +34,17 @@ You can provision using the Deploy to Azure button below or by using the Azure C
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
-Choose your Subscription, and enter a Resource group, Location (Southeast Asia for the DevDays in Taipei) Resource Prefix (Short Prefix of 10 characters or less for all resources created by this template so they are unique), SQL Server Username, SQL Server Password, and agree to the Terms and Conditions. Then click the `Purchase` button.
+Choose your Subscription, and enter a Resource group, Location, Resource Prefix (Short Prefix of 10 characters or less for all resources created by this template so they are unique - gloabally unique in the case of some services like storage), SQL Server Username, SQL Server Password, and agree to the Terms and Conditions. Then click the `Purchase` button.
 
-![setup](https://raw.githubusercontent.com/DataSnowman/MLonBigData/master/images/setup.png)
+![setup](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/setup.png)
 
 When the Deployment completes you will receive a notification in the Azure Portal.  Click the `Go to resource group` button.
 
-![preview](https://raw.githubusercontent.com/DataSnowman/MLonBigData/master/images/preview.png)
+![preview](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/preview.png)
 
 After you open the resource group in the Azure portal you should see these deployed resources
 
-![deploy](https://raw.githubusercontent.com/DataSnowman/MLonBigData/master/images/deploy.png)
+![deploy](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/deploy.png)
 
 ### Provisioning using the Azure CLI
 
