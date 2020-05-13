@@ -97,19 +97,33 @@ Note: If you encounter issues with resources please check by running the followi
 
 ## Copy the TeacherCandidate csv file to Storage
 
-Copy teacherCandidate.csv to Azure Storage [start here](https://github.com/DataSnowman/Ed-Fi-Azure/tree/master/datasource)
+Copy teacherCandidate.csv to Azure Storage.  Create a container named `data` and a folder named `input`.  Click Upload and upload `teacherCandidate.csv` from the `Ed-Fi-Azure/datasource` folder where you cloned the GitHub Repository.
 
 ![DataSource](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/datasource.png)
 
 ## Create Schemas and tables in Azure SQL Database
 
-Create Schemas and tables in Azure SQL Database [start here](https://github.com/DataSnowman/Ed-Fi-Azure/tree/master/database)
+Create Schemas and tables in Azure SQL Database.
+
+1. Connect to the Azure SQL Database created during the deployment.  You can find the Server name on the Overview area for the database.  In my case the Server name is `edf1edfitestgjacp5rwplhcesrv.database.windows.net` 
 
 ![Database](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/database.png)
 
+Open up Azure Data Studio (available on Linux, Mac, and Windows) or SQL Server Management Studio (Windows Only) and create a connection.
+
+![Connect](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/connect.png)
+
+2. Run the following 3 DDL (Data Definition Language) queries located at `Ed-Fi-Azure/sql` from the Git Clone to create tables and insert data:
+
+* `tpdmTeacherCandidate.sql` (No Data - this is the target sink for the ADF dataflow)
+* `edfiDescriptor.sql`
+* `edfiDescriptorTypes.sql`
+
+![RunDDL](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/runddl.png)
+
 ## Use Azure Data Factory Data Flow and Pipeline to prepare and load data
 
-Use Azure Data Factory Data Flow and Pipeline to prepare and load data [start here](https://github.com/DataSnowman/Ed-Fi-Azure/tree/master/adf/teacher)
+Use Azure Data Factory Data Flow and Pipeline to prepare and load data 
 
 ![ADF](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/ADF.png)
 
