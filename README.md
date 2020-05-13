@@ -121,6 +121,10 @@ Open up Azure Data Studio (available on Linux, Mac, and Windows) or SQL Server M
 
 ![RunDDL](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/runddl.png)
 
+When you are finished you should have the following Tables
+
+![Tables](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/tables.png)
+
 ## Use Azure Data Factory Data Flow and Pipeline to prepare and load data
 
 Use Azure Data Factory Data Flow and Pipeline to prepare and load data 
