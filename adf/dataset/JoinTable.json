@@ -1,0 +1,17 @@
+{
+	"name": "JoinTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "edfiDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "joined"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

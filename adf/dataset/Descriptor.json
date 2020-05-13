@@ -1,0 +1,68 @@
+{
+	"name": "Descriptor",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "edfiDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Namespace",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CodeValue",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShortDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PriorDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EffectiveBeginDate",
+				"type": "date"
+			},
+			{
+				"name": "EffectiveEndDate",
+				"type": "date"
+			},
+			{
+				"name": "CreateDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "LastModifiedDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Id",
+				"type": "uniqueidentifier"
+			}
+		],
+		"typeProperties": {
+			"schema": "edfi",
+			"table": "Descriptor"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
