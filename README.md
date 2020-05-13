@@ -46,7 +46,7 @@ After you open the resource group in the Azure portal you should see these deplo
 
 ![deploy](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/deploy.png)
 
-### Provisioning using the Azure CLI
+### Or (Alternatively) Provisioning using the Azure CLI
 
 1. Download and install the [Azure CLI Installer (MSI) for Windows](https://aka.ms/InstallAzureCliWindows) or Azure CLI for [Mac or Linux](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) . Once the installation is complete open the command prompt and run `az login`, then copy the access code returned. In a browser, open a **private tab** and enter the URL `aka.ms/devicelogin`. When prompted, paste in the access code from above. You will be prompted to authenticate using our Azure account.  Go through the appropriate multifaction authenication.
 
@@ -101,9 +101,9 @@ Copy teacherCandidate.csv to Azure Storage.  Create a container named `data` and
 
 ![DataSource](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/datasource.png)
 
-## Create Schemas and tables in Azure SQL Database
+## Create database schemas and tables in Azure SQL Database
 
-Create Schemas and tables in Azure SQL Database.
+Create schemas and tables in Azure SQL Database.
 
 1. Connect to the Azure SQL Database created during the deployment.  You can find the Server name on the Overview area for the database.  In my case the Server name is `edf1edfitestgjacp5rwplhcesrv.database.windows.net` 
 
