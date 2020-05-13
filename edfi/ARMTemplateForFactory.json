@@ -1,0 +1,242 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "edfi"
+		},
+		"edfiDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'edfiDB'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/runpipline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dataflow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Load-tpdmTeacherCandidate",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Desc": {},
+									"Sex": {},
+									"edfidb": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Load-tpdmTeacherCandidate')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Descriptor')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "edfiDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "DescriptorId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Namespace",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CodeValue",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ShortDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PriorDescriptorId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "EffectiveBeginDate",
+						"type": "date"
+					},
+					{
+						"name": "EffectiveEndDate",
+						"type": "date"
+					},
+					{
+						"name": "CreateDate",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "LastModifiedDate",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Id",
+						"type": "uniqueidentifier"
+					}
+				],
+				"typeProperties": {
+					"schema": "edfi",
+					"table": "Descriptor"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/edfiDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/JoinTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "edfiDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "joined"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/edfiDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SexDescriptor')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "edfiDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SexDescriptorId",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "edfi",
+					"table": "SexDescriptor"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/edfiDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/edfiDB')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('edfiDB_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Load-tpdmTeacherCandidate')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Descriptor",
+								"type": "DatasetReference"
+							},
+							"name": "Desc"
+						},
+						{
+							"dataset": {
+								"referenceName": "SexDescriptor",
+								"type": "DatasetReference"
+							},
+							"name": "Sex"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "JoinTable",
+								"type": "DatasetReference"
+							},
+							"name": "edfidb"
+						}
+					],
+					"transformations": [
+						{
+							"name": "joindesc"
+						}
+					],
+					"script": "source(output(\n\t\tDescriptorId as integer,\n\t\tNamespace as string,\n\t\tCodeValue as string,\n\t\tShortDescription as string,\n\t\tDescription as string,\n\t\tPriorDescriptorId as integer,\n\t\tEffectiveBeginDate as date,\n\t\tEffectiveEndDate as date,\n\t\tCreateDate as timestamp,\n\t\tLastModifiedDate as timestamp,\n\t\tId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Desc\nsource(output(\n\t\tSexDescriptorId as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Sex\nDesc, Sex join(DescriptorId == SexDescriptorId,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> joindesc\njoindesc sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> edfidb"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Descriptor')]",
+				"[concat(variables('factoryId'), '/datasets/SexDescriptor')]",
+				"[concat(variables('factoryId'), '/datasets/JoinTable')]"
+			]
+		}
+	]
+}
