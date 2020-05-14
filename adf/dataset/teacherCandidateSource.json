@@ -1,5 +1,5 @@
 {
-	"name": "teacherCandidate",
+	"name": "teacherCandidateSource",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "edfi",
