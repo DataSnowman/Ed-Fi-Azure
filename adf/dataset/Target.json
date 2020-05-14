@@ -1,0 +1,12 @@
+{
+	"name": "Target",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "edfiDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
