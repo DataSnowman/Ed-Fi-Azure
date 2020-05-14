@@ -6,20 +6,6 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Descriptor",
-						"type": "DatasetReference"
-					},
-					"name": "Desc"
-				},
-				{
-					"dataset": {
-						"referenceName": "SexDescriptor",
-						"type": "DatasetReference"
-					},
-					"name": "Sex"
-				},
-				{
-					"dataset": {
 						"referenceName": "teacherCandidateSource",
 						"type": "DatasetReference"
 					},
@@ -29,16 +15,13 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "JoinTable",
+						"referenceName": "Target",
 						"type": "DatasetReference"
 					},
-					"name": "edfidb"
+					"name": "Target"
 				}
 			],
 			"transformations": [
-				{
-					"name": "joindesc"
-				},
 				{
 					"name": "MapDescriptors"
 				},
@@ -53,7 +36,7 @@
 					"name": "TeacherCandidateIdentifier"
 				}
 			],
-			"script": "source(output(\n\t\tDescriptorId as integer,\n\t\tNamespace as string,\n\t\tCodeValue as string,\n\t\tShortDescription as string,\n\t\tDescription as string,\n\t\tPriorDescriptorId as integer,\n\t\tEffectiveBeginDate as date,\n\t\tEffectiveEndDate as date,\n\t\tCreateDate as timestamp,\n\t\tLastModifiedDate as timestamp,\n\t\tId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Desc\nsource(output(\n\t\tSexDescriptorId as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Sex\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> teacherCandidateSource\nDesc, Sex join(DescriptorId == SexDescriptorId,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> joindesc\nMapDrifted1 derive(SexDescriptorCodeValue = iif(Gender=='F', 'Female', iif(Gender == 'M', 'Male', 'Not Selected')),\n\t\tBirthSexDescriptorCodeValue = iif(BirthGender=='F', 'Female', iif(BirthGender == 'M', 'Male', 'Not Selected')),\n\t\tProgramCompleteBit = iif(ProgramComplete == 'Y', 1, iif(ProgramComplete == 'N', 0, toInteger(null()))),\n\t\tFirstGenerationStudentBit = iif(FirstGenerationStudent == 'Y', 1, iif(FirstGenerationStudent == 'N', 0, toInteger(null()))),\n\t\tMiddleName = toString(null()),\n\t\tGenerationCodeSuffix = toString(null()),\n\t\tMaidenName = toString(null()),\n\t\tBirthDateDate = toDate(BirthDate),\n\t\tBirthInternationalProvince = toString(null()),\n\t\tDateEnteredUS = toDate(''),\n\t\tMultipleBirthStatus = toInteger(null()),\n\t\tProfileThumbnail = toString(null())) ~> MapDescriptors\nteacherCandidateSource derive(PersonalTitlePrefix = toString(byName('PersonalTitlePrefix')),\n\t\tFirstName = toString(byName('FirstName')),\n\t\tLastSurname = toString(byName('LastSurname')),\n\t\tGender = toString(byName('Gender')),\n\t\tBirthDate = toString(byName('BirthDate'))\n\n,\n\t\tBirthCity = toString(byName('BirthCity')),\n\t\tBirthState = toString(byName('BirthState')),\n\t\tBirthCountry = toString(byName('BirthCountry')),\n\t\tBirthGender = toString(byName('BirthGender')),\n\t\tHispanicLatinoEthnicity = toString(byName('HispanicLatinoEthnicity')),\n\t\tOldEthnicity = toString(byName('OldEthnicity')),\n\t\tEconomicDisadvantaged = toString(byName('EconomicDisadvantaged')),\n\t\tLimitedEnglish = toString(byName('LimitedEnglish')),\n\t\tLoginId = toString(byName('LoginId')),\n\t\tTuitionCost = toString(byName('TuitionCost')),\n\t\tCareer = toString(byName('Career')),\n\t\tProgramComplete = toString(byName('ProgramComplete')),\n\t\tFirstGenerationStudent = toString(byName('FirstGenerationStudent')),\n\t\tStudentUSI = toString(byName('StudentUSI')),\n\t\tId = toString(byName('Id'))) ~> MapDrifted1\nTeacherCandidateIdentifier select(mapColumn(\n\t\tTeacherCandidateIdentifier,\n\t\tPersonalTitlePrefix,\n\t\tFirstName,\n\t\tMiddleName,\n\t\tLastSurname,\n\t\tGenerationCodeSuffix,\n\t\tGenerationCodeSuffix = MaidenName,\n\t\tSexDescriptorCodeValue,\n\t\tBirthDate = BirthDateDate,\n\t\tBirthCity,\n\t\tBirthState,\n\t\tBirthCountry,\n\t\tBirthSexDescriptorCodeValue,\n\t\tHispanicLatinoEthnicity,\n\t\tOldEthnicity,\n\t\tEconomicDisadvantaged,\n\t\tLimitedEnglish,\n\t\tLoginId,\n\t\tTuitionCost,\n\t\tCareer,\n\t\tProgramCompleteBit,\n\t\tFirstGenerationStudentBit,\n\t\tStudentUSI,\n\t\tId\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nMapDescriptors keyGenerate(output(TeacherCandidateIdentifier as long),\n\tstartAt: 1L) ~> TeacherCandidateIdentifier\njoindesc sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> edfidb"
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> teacherCandidateSource\nMapDrifted1 derive(SexDescriptorCodeValue = iif(Gender=='F', 'Female', iif(Gender == 'M', 'Male', 'Not Selected')),\n\t\tBirthSexDescriptorCodeValue = iif(BirthGender=='F', 'Female', iif(BirthGender == 'M', 'Male', 'Not Selected')),\n\t\tProgramCompleteBit = iif(ProgramComplete == 'Y', 1, iif(ProgramComplete == 'N', 0, toInteger(null()))),\n\t\tFirstGenerationStudentBit = iif(FirstGenerationStudent == 'Y', 1, iif(FirstGenerationStudent == 'N', 0, toInteger(null()))),\n\t\tMiddleName = toString(null()),\n\t\tGenerationCodeSuffix = toString(null()),\n\t\tMaidenName = toString(null()),\n\t\tBirthDateDate = toDate(BirthDate),\n\t\tBirthInternationalProvince = toString(null()),\n\t\tDateEnteredUS = toDate(''),\n\t\tMultipleBirthStatus = toInteger(null()),\n\t\tProfileThumbnail = toString(null()),\n\t\tCitizenshipStatusDescriptorId = toInteger(null()),\n\t\tDisplacementStatus = toString(null()),\n\t\tGenderDescriptorId = toInteger(null()),\n\t\tEnglishLanguageExamDescriptorId = toInteger(null())) ~> MapDescriptors\nteacherCandidateSource derive(PersonalTitlePrefix = toString(byName('PersonalTitlePrefix')),\n\t\tFirstName = toString(byName('FirstName')),\n\t\tLastSurname = toString(byName('LastSurname')),\n\t\tGender = toString(byName('Gender')),\n\t\tBirthDate = toString(byName('BirthDate')),\n\t\tBirthCity = toString(byName('BirthCity')),\n\t\tBirthState = toString(byName('BirthState')),\n\t\tBirthCountry = toString(byName('BirthCountry')),\n\t\tBirthGender = toString(byName('BirthGender')),\n\t\tHispanicLatinoEthnicity = toString(byName('HispanicLatinoEthnicity')),\n\t\tOldEthnicity = toString(byName('OldEthnicity')),\n\t\tEconomicDisadvantaged = toString(byName('EconomicDisadvantaged')),\n\t\tLimitedEnglish = toString(byName('LimitedEnglish')),\n\t\tLoginId = toString(byName('LoginId')),\n\t\tTuitionCost = toString(byName('TuitionCost')),\n\t\tCareer = toString(byName('Career')),\n\t\tProgramComplete = toString(byName('ProgramComplete')),\n\t\tFirstGenerationStudent = toString(byName('FirstGenerationStudent')),\n\t\tStudentUSI = toString(byName('StudentUSI')),\n\t\tId = toString(byName('Id'))) ~> MapDrifted1\nTeacherCandidateIdentifier select(mapColumn(\n\t\tTeacherCandidateIdentifier,\n\t\tPersonalTitlePrefix,\n\t\tFirstName,\n\t\tMiddleName,\n\t\tLastSurname,\n\t\tGenerationCodeSuffix,\n\t\tMaidenName,\n\t\tSexDescriptorCodeValue,\n\t\tBirthDate = BirthDateDate,\n\t\tBirthCity,\n\t\tBirthState,\n\t\tBirthInternationalProvince,\n\t\tBirthCountry,\n\t\tDateEnteredUS,\n\t\tMultipleBirthStatus,\n\t\tBirthSexDescriptorCodeValue,\n\t\tProfileThumbnail,\n\t\tHispanicLatinoEthnicity,\n\t\tOldEthnicity,\n\t\tCitizenshipStatusDescriptorId,\n\t\tEconomicDisadvantaged,\n\t\tLimitedEnglish,\n\t\tDisplacementStatus,\n\t\tLoginId,\n\t\tGenderDescriptorId,\n\t\tTuitionCost,\n\t\tEnglishLanguageExamDescriptorId,\n\t\tCareer,\n\t\tProgramCompleteBit,\n\t\tFirstGenerationStudentBit,\n\t\tStudentUSI\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nMapDescriptors keyGenerate(output(TeacherCandidateIdentifier as long),\n\tstartAt: 1L) ~> TeacherCandidateIdentifier\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Target"
 		}
 	}
 }
