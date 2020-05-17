@@ -5,6 +5,9 @@
 			"referenceName": "edfi",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "storageSource"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
