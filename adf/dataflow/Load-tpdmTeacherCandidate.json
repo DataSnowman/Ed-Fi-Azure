@@ -16,7 +16,7 @@
 						"referenceName": "Descriptor",
 						"type": "DatasetReference"
 					},
-					"name": "SexDescriptorId"
+					"name": "SexDescriptorIdSrc"
 				},
 				{
 					"dataset": {
