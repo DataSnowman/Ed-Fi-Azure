@@ -5,6 +5,9 @@
 			"referenceName": "edfiDBls",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "edfi"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
