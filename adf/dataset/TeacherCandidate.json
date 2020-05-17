@@ -5,6 +5,9 @@
 			"referenceName": "edfiDBls",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "tpdm"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
