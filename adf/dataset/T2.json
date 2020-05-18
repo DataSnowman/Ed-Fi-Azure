@@ -13,7 +13,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "t2"
+			"table": "target2"
 		}
 	}
 }
