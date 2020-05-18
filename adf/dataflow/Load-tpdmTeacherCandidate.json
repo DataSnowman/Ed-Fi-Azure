@@ -64,7 +64,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Target",
+						"referenceName": "T2",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
