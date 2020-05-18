@@ -2,8 +2,11 @@
 	"name": "Descriptor",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "edfiDB",
+			"referenceName": "edfiDBls",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "edfi"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
@@ -44,15 +47,15 @@
 			},
 			{
 				"name": "CreateDate",
-				"type": "smalldatetime",
-				"precision": 16,
-				"scale": 0
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			},
 			{
 				"name": "LastModifiedDate",
-				"type": "smalldatetime",
-				"precision": 16,
-				"scale": 0
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			},
 			{
 				"name": "Id",
@@ -63,6 +66,5 @@
 			"schema": "edfi",
 			"table": "Descriptor"
 		}
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+	}
 }

@@ -2,8 +2,11 @@
 	"name": "Target",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "edfiDB",
+			"referenceName": "edfiDBls",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "dbo"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",

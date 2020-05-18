@@ -1,0 +1,173 @@
+{
+	"name": "TeacherCandidate",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "edfiDBls",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "tpdm"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TeacherCandidateIdentifier",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PersonalTitlePrefix",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MiddleName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastSurname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GenerationCodeSuffix",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MaidenName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SexDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BirthDate",
+				"type": "date"
+			},
+			{
+				"name": "BirthCity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BirthStateAbbreviationDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BirthInternationalProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BirthCountryDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DateEnteredUS",
+				"type": "date"
+			},
+			{
+				"name": "MultipleBirthStatus",
+				"type": "bit"
+			},
+			{
+				"name": "BirthSexDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProfileThumbnail",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HispanicLatinoEthnicity",
+				"type": "bit"
+			},
+			{
+				"name": "OldEthnicityDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CitizenshipStatusDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EconomicDisadvantaged",
+				"type": "bit"
+			},
+			{
+				"name": "LimitedEnglishProficiencyDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DisplacementStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LoginId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GenderDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TuitionCost",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "EnglishLanguageExamDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PreviousCareerDescriptorId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProgramComplete",
+				"type": "bit"
+			},
+			{
+				"name": "FirstGenerationStudent",
+				"type": "bit"
+			},
+			{
+				"name": "StudentUSI",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LastModifiedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Id",
+				"type": "uniqueidentifier"
+			}
+		],
+		"typeProperties": {
+			"schema": "tpdm",
+			"table": "TeacherCandidate"
+		}
+	}
+}

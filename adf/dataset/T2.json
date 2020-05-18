@@ -1,5 +1,5 @@
 {
-	"name": "JoinTable",
+	"name": "T2",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "edfiDBls",
@@ -13,8 +13,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "joined"
+			"table": "target2"
 		}
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+	}
 }
