@@ -64,7 +64,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "T2",
+						"referenceName": "JoinTable",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
