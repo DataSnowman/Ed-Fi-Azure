@@ -1,0 +1,16 @@
+{
+	"name": "T2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "edfiDBls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "t2"
+		}
+	}
+}
