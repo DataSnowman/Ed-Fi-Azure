@@ -127,9 +127,46 @@ When you are finished you should have the following Tables
 
 ## Use Azure Data Factory Data Flow and Pipeline to prepare and load data
 
-Use Azure Data Factory Data Flow and Pipeline to prepare and load data 
+Use Azure Data Factory Data Flow and Pipeline to prepare and load data.
 
-![ADF](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/ADF.png)
+Click on `Author & Monitor`
 
+![ADF](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/adf.png)
+
+Click on `Create pipeline from template` under Let's get started
+
+![CreatePLtemplate](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/createpltemplate.png)
+
+Click on `Use local template`
+
+![UseLocalTemplate](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/useLocalTemplate.png)
+
+Navigate to the `Load-tpdmTeacherCandidate.zip` file and click Open
+
+![Path](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/path.png)
+
+Create User inputs for your ADLS Storage and Aure SQL Database Linked Services
+
+![Path](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/userInputs.png)
+
+Storage.  Click `Create`
+
+![stg](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/storage.png)
+
+Database. Click `Create`
+
+![sqldb](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/sqldb.png)
+
+Click `Use this template`
+
+![UseTemplate](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/useThisTemplate.png)
+
+Your ADF Data flow should look like this. You can now publish it, debug, and trigger the pipeline to run
+
+![datafactorydf](https://raw.githubusercontent.com/DataSnowman/Ed-Fi-Azure/master/images/datafactorydf.png)
+
+If you want to learn how to trigger an ADF pipeline click [HERE](https://docs.microsoft.com/en-us/azure/data-factory/how-to-create-schedule-trigger)
+
+You can use `Trigger now`versus scheduling it.
 
 Hope you enjoyed this example.
