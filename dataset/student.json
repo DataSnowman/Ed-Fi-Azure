@@ -1,0 +1,24 @@
+{
+	"name": "student",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStoragesccoedata",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "student-mat.csv",
+				"folderPath": "student/input",
+				"fileSystem": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
